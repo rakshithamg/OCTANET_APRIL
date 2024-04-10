@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-image: url('https://wallpapercave.com/wp/wp3701541.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: hsla(0, 12%, 94%, 0.841);
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            background-color: #f5f0f0f4;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(215, 210, 210, 0.1);
+        }
+        li.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+        input[type="text"] {
+            width: calc(100% - 80px); /* Adjusted width for Edge */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .last-updated {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 12px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Add New Task">
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <div class="last-updated" id="lastUpdated"></div>
+
+    <script>
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            var taskList = document.getElementById("taskList");
+            var date = new Date();
+            var dateTime = date.toLocaleString();
+
+            if (taskInput.value.trim() !== "") {
+                var li = document.createElement("li");
+                li.innerHTML = '<input type="checkbox" onchange="toggleCompleted(this)">' + taskInput.value + '<span class="date-time">' + dateTime + '</span><button onclick="removeTask(this)">Remove</button>';
+                taskList.appendChild(li);
+                taskInput.value = "";
+
+                // Update last updated time
+                document.getElementById("lastUpdated").textContent = "Last Updated: " + dateTime;
+            }
+        }
+
+        function toggleCompleted(checkbox) {
+            var listItem = checkbox.parentNode;
+            if (checkbox.checked) {
+                listItem.classList.add("completed");
+            } else {
+                listItem.classList.remove("completed");
+            }
+        }
+
+        function removeTask(button) {
+            var listItem = button.parentNode;
+            listItem.parentNode.removeChild(listItem);
+
+            // Update last updated time
+            var date = new Date();
+            var dateTime = date.toLocaleString();
+            document.getElementById("lastUpdated").textContent = "Last Updated: " + dateTime;
+        }
+    </script>
+</body>
+</html>
